@@ -298,12 +298,50 @@
                                     <i class="fas fa-download mr-1"></i> Download Excel
                                 </button>
                             </div>
+                            
                             <!-- Tabel dengan inline style agar warna terbawa ke Excel -->
-                            <div class="overflow-x-auto">
+                            <div class="overflow-x-auto" id="area-cetak-excel" style="background-color: white; padding: 20px; min-width: 900px;">
+                                
+                                <!-- HEADER / KOP SURAT CETAK -->
+                                <table style="width: 100%; border: none; margin-bottom: 25px; font-family: Arial, sans-serif;">
+                                    <tr>
+                                        <td style="text-align: left; vertical-align: middle; border: none;">
+                                            <h2 style="font-size: 20px; font-weight: bold; margin: 0; color: black;">REKAP ABSENSI BULANAN</h2>
+                                            <h3 style="font-size: 18px; font-weight: bold; margin: 5px 0 0 0; color: black;">SDN KEDOYA SELATAN 04 PAGI</h3>
+                                            <p id="subtitle-laporan" style="font-size: 14px; margin: 8px 0 0 0; color: black;">Bulan: - | Kelas: -</p>
+                                        </td>
+                                        <td style="text-align: right; vertical-align: middle; border: none;">
+                                            <img src="https://iili.io/CU2uox4.png" alt="Logo Sekolah" style="height: 75px;">
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <!-- TABEL UTAMA REKAP -->
                                 <table id="tabel-excel-rekap" style="border-collapse: collapse; width: 100%; text-align: center; font-size: 12px; font-family: Arial, sans-serif;" border="1">
                                     <thead id="thead-laporan"></thead>
                                     <tbody id="tbody-laporan"></tbody>
                                 </table>
+
+                                <!-- BAGIAN TANDA TANGAN -->
+                                <table style="width: 100%; border: none; margin-top: 40px; font-family: Arial, sans-serif; font-size: 14px; color: black;">
+                                    <tr>
+                                        <td style="width: 50%; text-align: center; vertical-align: bottom; border: none;">
+                                            <p style="margin: 0;">Mengetahui,</p>
+                                            <p style="margin: 0; font-weight: bold;">Kepala Sekolah</p>
+                                            <br><br><br><br><br>
+                                            <p style="margin: 0; font-weight: bold; text-decoration: underline;">( ..................................................... )</p>
+                                            <p style="margin: 0;">NIP. ........................................</p>
+                                        </td>
+                                        <td style="width: 50%; text-align: center; vertical-align: bottom; border: none;">
+                                            <p id="tgl-ttd-laporan" style="margin: 0;">Jakarta, ............................ 20..</p>
+                                            <p style="margin: 0; font-weight: bold;">Guru Wali Kelas</p>
+                                            <br><br><br><br><br>
+                                            <p id="nama-guru-laporan" style="margin: 0; font-weight: bold; text-decoration: underline;">( ..................................................... )</p>
+                                            <p style="margin: 0;">NIP. ........................................</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                                
                             </div>
                         </div>
                     </div>
@@ -814,6 +852,13 @@
             
             document.getElementById('title-laporan').innerText = `Rekap Kelas ${kls} - Bulan ${namaBulan} ${tahun}`;
 
+            document.getElementById('subtitle-laporan').innerText = `Bulan: ${namaBulan} ${tahun} | Kelas: ${kls}`;
+            document.getElementById('tgl-ttd-laporan').innerText = `Jakarta, ${jmlHari} ${namaBulan} ${tahun}`;
+            
+            // Nama Guru secara otomatis akan menyesuaikan nama akun yang sedang login
+            const namaGuru = currentUser ? currentUser.name : ".....................................................";
+            document.getElementById('nama-guru-laporan').innerText = `( ${namaGuru} )`;
+
             // 1. GENERATE HEADER TABEL (TANGGAL)
             let headHTML = `
                 <tr>
@@ -919,7 +964,7 @@
 
         // Fungsi Ekspor Tabel ke File Excel
         function downloadExcelLaporan() {
-            const table = document.getElementById("tabel-excel-rekap");
+            const areaCetak = document.getElementById("area-cetak-excel");
             const kls = document.getElementById('laporan-kelas').value;
             const blnThn = document.getElementById('laporan-bulan').value;
             const filename = `Rekap_Absensi_Kelas_${kls}_${blnThn}.xls`;
@@ -927,7 +972,8 @@
             // Membuat format file Excel berbasis XML HTML
             let html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">';
             html += '<head><meta charset="utf-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Rekap Absen</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head>';
-            html += '<body>' + table.outerHTML + '</body></html>';
+            // Menerapkan background putih untuk menimpa tema dark-mode atau abu-abu browser jika ada
+            html += '<body style="background-color: white;">' + areaCetak.innerHTML + '</body></html>';
 
             // Convert ke Blob dan Trigger Unduh
             const blob = new Blob([html], { type: 'application/vnd.ms-excel' });
