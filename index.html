@@ -52,7 +52,7 @@
             <div class="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
                 <div class="text-center mb-8">
                     <img src="https://iili.io/CU2uox4.png" alt="Logo Sekolah" class="w-24 h-24 mx-auto mb-4 object-contain drop-shadow-md">
-                    <h2 class="text-2xl font-bold text-gray-800">SIMPEG SD</h2>
+                    <h2 class="text-2xl font-bold text-gray-800">KSATRIA</h2>
                     <p class="text-gray-500 text-sm">Administrasi Guru Kelas SDN Kedoya Selatan 04 Pagi</p>
                     <p id="preview-badge" class="mt-2 text-xs font-semibold text-white bg-orange-500 py-1 px-2 rounded-full inline-block">MODE PREVIEW AKTIF</p>
                 </div>
@@ -300,18 +300,24 @@
                             </div>
                             
                             <!-- Tabel dengan inline style agar warna terbawa ke Excel -->
+                            <!-- area-cetak-excel -->
                             <div class="overflow-x-auto" id="area-cetak-excel" style="background-color: white; padding: 20px; min-width: 900px;">
                                 
                                 <!-- HEADER / KOP SURAT CETAK -->
                                 <table style="width: 100%; border: none; margin-bottom: 25px; font-family: Arial, sans-serif;">
                                     <tr>
-                                        <td style="text-align: left; vertical-align: middle; border: none;">
+                                        <!-- Logo Kiri: Logo Sekolah -->
+                                        <td style="width: 15%; text-align: left; vertical-align: middle; border: none;">
+                                            <img src="https://iili.io/CU2uox4.png" alt="Logo Sekolah" style="height: 80px; width: auto; object-fit: contain;">
+                                        </td>
+                                        <!-- Judul Tengah -->
+                                        <td style="width: 70%; text-align: center; vertical-align: middle; border: none;">
                                             <h2 style="font-size: 20px; font-weight: bold; margin: 0; color: black;">REKAP ABSENSI BULANAN</h2>
                                             <h3 style="font-size: 18px; font-weight: bold; margin: 5px 0 0 0; color: black;">SDN KEDOYA SELATAN 04 PAGI</h3>
                                             <p id="subtitle-laporan" style="font-size: 14px; margin: 8px 0 0 0; color: black;">Bulan: - | Kelas: -</p>
                                         </td>
-                                        <td style="text-align: right; vertical-align: middle; border: none;">
-                                            <img src="https://iili.io/CU2uox4.png" alt="Logo Sekolah" style="height: 75px;">
+                                        <!-- Logo Kanan: Dikosongkan agar teks tetap di tengah -->
+                                        <td style="width: 15%; text-align: right; vertical-align: middle; border: none;">
                                         </td>
                                     </tr>
                                 </table>
@@ -329,8 +335,8 @@
                                             <p style="margin: 0;">Mengetahui,</p>
                                             <p style="margin: 0; font-weight: bold;">Kepala Sekolah</p>
                                             <br><br><br><br><br>
-                                            <p style="margin: 0; font-weight: bold; text-decoration: underline;">( ..................................................... )</p>
-                                            <p style="margin: 0;">NIP. ........................................</p>
+                                            <p style="margin: 0; font-weight: bold; text-decoration: underline;">Andi Rifaih, S.Pd</p>
+                                            <p style="margin: 0;">NIP. 197410072014121001</p>
                                         </td>
                                         <td style="width: 50%; text-align: center; vertical-align: bottom; border: none;">
                                             <p id="tgl-ttd-laporan" style="margin: 0;">Jakarta, ............................ 20..</p>
