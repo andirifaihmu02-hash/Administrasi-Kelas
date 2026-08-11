@@ -329,23 +329,7 @@
                                 </table>
 
                                 <!-- BAGIAN TANDA TANGAN -->
-                                <table style="width: 100%; border: none; margin-top: 40px; font-family: Arial, sans-serif; font-size: 14px; color: black;">
-                                    <tr>
-                                        <td style="width: 50%; text-align: center; vertical-align: bottom; border: none;">
-                                            <p style="margin: 0;">Mengetahui,</p>
-                                            <p style="margin: 0; font-weight: bold;">Kepala Sekolah</p>
-                                            <br><br><br><br><br>
-                                            <p style="margin: 0; font-weight: bold; text-decoration: underline;">Andi Rifaih, S.Pd</p>
-                                            <p style="margin: 0;">NIP. 197410072014121001</p>
-                                        </td>
-                                        <td style="width: 50%; text-align: center; vertical-align: bottom; border: none;">
-                                            <p id="tgl-ttd-laporan" style="margin: 0;">Jakarta, ............................ 20..</p>
-                                            <p style="margin: 0; font-weight: bold;">Guru Wali Kelas</p>
-                                            <br><br><br><br><br>
-                                            <p id="nama-guru-laporan" style="margin: 0; font-weight: bold; text-decoration: underline;">( ..................................................... )</p>
-                                            <p style="margin: 0;">NIP. ........................................</p>
-                                        </td>
-                                    </tr>
+                                <table id="tabel-ttd-laporan" style="width: 100%; border: none; font-family: Arial, sans-serif; font-size: 14px; color: black;">
                                 </table>
                                 
                             </div>
@@ -859,17 +843,12 @@
             document.getElementById('title-laporan').innerText = `Rekap Kelas ${kls} - Bulan ${namaBulan} ${tahun}`;
 
             document.getElementById('subtitle-laporan').innerText = `Bulan: ${namaBulan} ${tahun} | Kelas: ${kls}`;
-            document.getElementById('tgl-ttd-laporan').innerText = `Jakarta, ${jmlHari} ${namaBulan} ${tahun}`;
-            
-            // Nama Guru secara otomatis akan menyesuaikan nama akun yang sedang login
-            const namaGuru = currentUser ? currentUser.name : ".....................................................";
-            document.getElementById('nama-guru-laporan').innerText = `( ${namaGuru} )`;
 
             // 1. GENERATE HEADER TABEL (TANGGAL)
             let headHTML = `
                 <tr>
-                    <th rowspan="2" style="background-color: #f3f4f6; padding: 8px;">No</th>
-                    <th rowspan="2" style="background-color: #f3f4f6; padding: 8px;">NIS</th>
+                    <th rowspan="2" width="40" style="background-color: #f3f4f6; padding: 8px; width: 40px; min-width: 40px;">No</th>
+                    <th rowspan="2" width="150" style="background-color: #f3f4f6; padding: 8px; width: 150px; min-width: 150px;">NIS</th>
                     <th rowspan="2" style="background-color: #f3f4f6; padding: 8px; text-align: left; min-width: 150px;">Nama Siswa</th>
                     <th colspan="${jmlHari}" style="background-color: #f3f4f6; padding: 8px;">Tanggal</th>
                     <th colspan="4" style="background-color: #f3f4f6; padding: 8px;">Total Kehadiran</th>
@@ -966,6 +945,48 @@
             });
 
             tbody.innerHTML = bodyHTML;
+
+            // 4. GENERATE TANDA TANGAN DINAMIS (Agar rentang kolom proporsional di Excel)
+            const totalKolom = 3 + jmlHari + 4;
+            const colKiri = 10;
+            const colTengah = totalKolom - 20; // Sisa kolom di tengah
+            const colKanan = 10;
+            
+            const namaGuru = currentUser ? currentUser.name : ".....................................................";
+            const tabelTtd = document.getElementById('tabel-ttd-laporan');
+            
+            tabelTtd.innerHTML = `
+                <tr>
+                    <td colspan="${totalKolom}" style="height: 40px; border: none;"></td>
+                </tr>
+                <tr>
+                    <td colspan="${colKiri}" style="text-align: center; vertical-align: bottom; border: none;">
+                        <p style="margin: 0;">Mengetahui,</p>
+                        <p style="margin: 0; font-weight: bold;">Kepala Sekolah</p>
+                    </td>
+                    <td colspan="${colTengah}" style="border: none;"></td>
+                    <td colspan="${colKanan}" style="text-align: center; vertical-align: bottom; border: none;">
+                        <p style="margin: 0;">Jakarta, ${jmlHari} ${namaBulan} ${tahun}</p>
+                        <p style="margin: 0; font-weight: bold;">Guru Wali Kelas</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="${colKiri}" style="height: 80px; border: none;"></td>
+                    <td colspan="${colTengah}" style="border: none;"></td>
+                    <td colspan="${colKanan}" style="border: none;"></td>
+                </tr>
+                <tr>
+                    <td colspan="${colKiri}" style="text-align: center; vertical-align: bottom; border: none;">
+                        <p style="margin: 0; font-weight: bold; text-decoration: underline;">Andi Rifaih, S.Pd</p>
+                        <p style="margin: 0;">NIP. 197410072014121001</p>
+                    </td>
+                    <td colspan="${colTengah}" style="border: none;"></td>
+                    <td colspan="${colKanan}" style="text-align: center; vertical-align: bottom; border: none;">
+                        <p style="margin: 0; font-weight: bold; text-decoration: underline;">( ${namaGuru} )</p>
+                        <p style="margin: 0;">NIP. ........................................</p>
+                    </td>
+                </tr>
+            `;
         }
 
         // Fungsi Ekspor Tabel ke File Excel
